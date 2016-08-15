@@ -1,2 +1,2 @@
 # nodejs-authentication
-A Node.js authentication system (no integrated database)
+A Node.js authentication system with Google (no integrated database)
