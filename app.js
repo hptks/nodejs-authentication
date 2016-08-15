@@ -13,10 +13,30 @@ passport.use(new GoogleStrategy({
 	}	
 ));
 
-passport.serializeuser((user, cb) => {
+passport.serializeUser((user, cb) => {
 	cb(null, user);
 });
 
 passport.deserializeUser((obj, cb) => {
 	cb(null, obj);
 });
+
+let app=express();
+
+app.set('views', __dirname+'/views');
+app.set('view engine', 'ejs');
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.get('/', (req, res) => {
+	res.render('home', { user: req.user });
+});
+
+app.get('/login', (req, res) => {
+	res.render('login');
+});
+
+app.get('/login/google', passport.authenticate('google'));
+
+app.listen(8888);
