@@ -7,9 +7,7 @@ passport.use(new GoogleStrategy({
 		clientSecret: 'fN7kFN7UJ5ahDC057GvOuZN1',
 		callbackURL: 'http://localhost:8888/auth/google/callback'		
 	}, (accessToken, refreshToken, profile, cb) => {
-		User.findOrCreate({ googleId: profile.id }, (err, user) => {
-			return cb(err, user);
-		});
+		return cb(null, profile);
 	}	
 ));
 
@@ -38,5 +36,12 @@ app.get('/auth', (req, res) => {
 });
 
 app.get('/auth/google', passport.authenticate('google', { scope: ['profile'] }));
+
+app.get('/auth/google/callback',
+	passport.authenticate('google', { failureRedirect: '/auth' }),
+	(req, res) => {
+		res.redirect('/');
+	}
+);
 
 app.listen(8888);
