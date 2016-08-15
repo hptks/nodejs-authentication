@@ -33,10 +33,10 @@ app.get('/', (req, res) => {
 	res.render('home', { user: req.user });
 });
 
-app.get('/login', (req, res) => {
+app.get('/auth', (req, res) => {
 	res.render('login');
 });
 
-app.get('/login/google', passport.authenticate('google'));
+app.get('/auth/google', passport.authenticate('google', { scope: ['profile'] }));
 
 app.listen(8888);
